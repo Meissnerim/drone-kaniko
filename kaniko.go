@@ -25,6 +25,7 @@ type (
 		EnableCache   bool     // Whether to enable kaniko cache
 		CacheRepo     string   // Remote repository that will be used to store cached layers
 		CacheTTL      int      // Cache timeout in hours
+		RegistryMirror string  // registry mirror
 		DigestFile    string   // Digest file location
 		NoPush        bool     // Set this flag if you only want to build the image, without pushing to a registry
 		Verbosity     string   // Log level
@@ -83,6 +84,10 @@ func (p Plugin) Exec() error {
 
 	if p.Build.SnapshotMode != "" {
 		cmdArgs = append(cmdArgs, fmt.Sprintf("--snapshotMode=%s", p.Build.SnapshotMode))
+	}
+
+	if p.Build.RegsitryMirror != "" {
+		cmdArgs = append(cmdArgs, fmt.Sprintf("--registry-mirror=%s", p.Build.RegsitryMirror))
 	}
 
 	if p.Build.EnableCache == true {
