@@ -17,6 +17,7 @@ type (
 		Context       string   // Docker build context
 		Tags          []string // Docker build tags
 		Args          []string // Docker build args
+		ExtraArgs	  []string // add extra args
 		Target        string   // Docker build target
 		Repo          string   // Docker build repository
 		Labels        []string // Label map
@@ -72,6 +73,11 @@ func (p Plugin) Exec() error {
 	// Set the labels
 	for _, label := range p.Build.Labels {
 		cmdArgs = append(cmdArgs, fmt.Sprintf("--label=%s", label))
+	}
+
+	// set additional args
+	for _, extraArg := range p.Build.ExtraArgs {
+		cmdArgs = append(cmdArgs, fmt.Sprintf("%s", extraArg))
 	}
 
 	if p.Build.Target != "" {
