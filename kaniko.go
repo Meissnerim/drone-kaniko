@@ -20,13 +20,14 @@ type (
 		ExtraArgs	  []string // add extra args
 		Target        string   // Docker build target
 		Repo          string   // Docker build repository
+		Registry          string   // Docker build registry
 		Labels        []string // Label map
 		SkipTlsVerify bool     // Docker skip tls certificate verify for registry
 		SnapshotMode  string   // Kaniko snapshot mode
 		EnableCache   bool     // Whether to enable kaniko cache
 		CacheRepo     string   // Remote repository that will be used to store cached layers
 		CacheTTL      int      // Cache timeout in hours
-		RegistryMirror string  // registry mirror
+		Mirror 		  string  // registry mirror
 		DigestFile    string   // Digest file location
 		NoPush        bool     // Set this flag if you only want to build the image, without pushing to a registry
 		Verbosity     string   // Log level
@@ -64,7 +65,11 @@ func (p Plugin) Exec() error {
 
 	// Set the destination repository
 	for _, tag := range p.Build.Tags {
-		cmdArgs = append(cmdArgs, fmt.Sprintf("--destination=%s:%s", p.Build.Repo, tag))
+		if p.Build.Registry != "" {
+			cmdArgs = append(cmdArgs, fmt.Sprintf("--destination=%s/%s:%s", p.Build.Registry, p.Build.Repo, tag))
+		} else {
+			cmdArgs = append(cmdArgs, fmt.Sprintf("--destination=%s:%s", p.Build.Repo, tag))
+		}
 	}
 	// Set the build arguments
 	for _, arg := range p.Build.Args {
@@ -92,8 +97,8 @@ func (p Plugin) Exec() error {
 		cmdArgs = append(cmdArgs, fmt.Sprintf("--snapshotMode=%s", p.Build.SnapshotMode))
 	}
 
-	if p.Build.RegistryMirror != "" {
-		cmdArgs = append(cmdArgs, fmt.Sprintf("--registry-mirror=%s", p.Build.RegistryMirror))
+	if p.Build.Mirror != "" {
+		cmdArgs = append(cmdArgs, fmt.Sprintf("--registry-mirror=%s", p.Build.Mirror))
 	}
 
 	if p.Build.EnableCache == true {

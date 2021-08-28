@@ -76,6 +76,11 @@ func main() {
 			Usage:  "docker repository",
 			EnvVar: "PLUGIN_REPO",
 		},
+		cli.StringFlag{
+			Name:   "registry",
+			Usage:  "docker registry",
+			EnvVar: "PLUGIN_REGISTRY",
+		},
 		cli.StringSliceFlag{
 			Name:   "custom-labels",
 			Usage:  "additional k=v labels",
@@ -128,9 +133,9 @@ func main() {
 			EnvVar: "PLUGIN_CACHE_TTL",
 		},
 		cli.StringFlag{
-			Name:   "registry-mirror",
+			Name:   "mirror",
 			Usage:  "registry mirror used for iamges",
-			EnvVar: "PLUGIN_REGISTRY_MIRROR",
+			EnvVar: "PLUGIN_MIRROR",
 		},
 		cli.StringFlag{
 			Name:   "artifact-file",
@@ -168,6 +173,7 @@ func run(c *cli.Context) error {
 			Args:          c.StringSlice("args"),
 			Target:        c.String("target"),
 			Repo:          c.String("repo"),
+			Registry:      c.String("registry"),
 			Labels:        c.StringSlice("custom-labels"),
 			ExtraArgs:     c.StringSlice("extra-args"),
 			SkipTlsVerify: c.Bool("skip-tls-verify"),
@@ -175,7 +181,7 @@ func run(c *cli.Context) error {
 			EnableCache:   c.Bool("enable-cache"),
 			CacheRepo:     c.String("cache-repo"),
 			CacheTTL:      c.Int("cache-ttl"),
-			RegistryMirror:c.String("registry-mirror"),
+			Mirror: 	   c.String("mirror"),
 			DigestFile:    defaultDigestFile,
 			NoPush:        c.Bool("no-push"),
 			Verbosity:     c.String("verbosity"),
