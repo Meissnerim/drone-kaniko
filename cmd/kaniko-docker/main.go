@@ -76,11 +76,6 @@ func main() {
 			Usage:  "docker repository",
 			EnvVar: "PLUGIN_REPO",
 		},
-		cli.StringFlag{
-			Name:   "registry",
-			Usage:  "docker registry",
-			EnvVar: "PLUGIN_REGISTRY",
-		},
 		cli.StringSliceFlag{
 			Name:   "custom-labels",
 			Usage:  "additional k=v labels",
@@ -173,7 +168,6 @@ func run(c *cli.Context) error {
 			Args:          c.StringSlice("args"),
 			Target:        c.String("target"),
 			Repo:          c.String("repo"),
-			Registry:      c.String("registry"),
 			Labels:        c.StringSlice("custom-labels"),
 			ExtraArgs:     c.StringSlice("extra-args"),
 			SkipTlsVerify: c.Bool("skip-tls-verify"),
