@@ -92,8 +92,8 @@ func (p Plugin) Exec() error {
 		cmdArgs = append(cmdArgs, fmt.Sprintf("--snapshotMode=%s", p.Build.SnapshotMode))
 	}
 
-	if p.Build.RegsitryMirror != "" {
-		cmdArgs = append(cmdArgs, fmt.Sprintf("--registry-mirror=%s", p.Build.RegsitryMirror))
+	if p.Build.RegistryMirror != "" {
+		cmdArgs = append(cmdArgs, fmt.Sprintf("--registry-mirror=%s", p.Build.RegistryMirror))
 	}
 
 	if p.Build.EnableCache == true {
