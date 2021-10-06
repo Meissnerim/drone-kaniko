@@ -120,6 +120,8 @@ func (p Plugin) Exec() error {
 		cmdArgs = append(cmdArgs, fmt.Sprintf("--verbosity=%s", p.Build.Verbosity))
 	}
 
+	
+	fmt.Fprintf(os.Stdout, "+ %s\n", strings.Join(cmdArgs, " "))
 	cmd := exec.Command("/kaniko/executor", cmdArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

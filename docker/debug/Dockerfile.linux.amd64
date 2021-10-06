@@ -1,0 +1,8 @@
+FROM gcr.io/kaniko-project/executor:debug
+
+ENV DOCKER_CREDENTIAL_GCR_CONFIG=""
+
+ADD release/linux/amd64/kaniko-docker /kaniko/
+ADD entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
